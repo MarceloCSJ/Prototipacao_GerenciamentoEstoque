@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans;
+  }
+  /* Visible focus ring on all interactive elements for keyboard users */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-canvas rounded;
+  }
+}
+
+@layer components {
+  /* Primary button — min height 44px for touch accessibility */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4
+      text-white font-semibold text-sm min-h-[44px]
+      transition-colors hover:bg-primary-600 active:bg-primary-700
+      disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Accent (dark) button */
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4
+      text-white font-semibold text-sm min-h-[44px]
+      transition-colors hover:bg-accent-600 active:bg-accent-700;
+  }
+
+  /* Ghost / outline button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface px-4
+      text-ink font-medium text-sm min-h-[44px]
+      transition-colors hover:bg-canvas active:bg-line;
+  }
+
+  /* Card surface */
+  .card {
+    @apply bg-surface border border-line rounded-xl;
+  }
+
+  /* Status pill — low stock */
+  .pill-danger {
+    @apply inline-flex items-center gap-1 rounded-full bg-danger/10 text-danger
+      px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* Status pill — healthy stock */
+  .pill-success {
+    @apply inline-flex items-center gap-1 rounded-full bg-success/10 text-success
+      px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* Status pill — idle/stale product */
+  .pill-warning {
+    @apply inline-flex items-center gap-1 rounded-full bg-warning/10 text-warning
+      px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-wider text-accent-400;
+  }
+}
