@@ -1,13 +1,42 @@
-import { ArrowDownCircle, ArrowUpCircle, ArrowLeftRight } from 'lucide-react';
-import { useState } from 'react';
-import { mockMovements } from '@/data/mockData';
+import { useEffect, useState, useCallback } from 'react';
+import { ArrowDownCircle, ArrowUpCircle, ArrowLeftRight, RefreshCw } from 'lucide-react';
 import type { Movement } from '@/types';
+import { fetchMovements } from '@/services/movements';
 
 type FilterType = 'todas' | 'entrada' | 'saida';
 
+function formatDateGroup(isoDate: string): string {
+  const date = new Date(isoDate);
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function formatTime(isoDate: string): string {
+  const date = new Date(isoDate);
+  return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
 export default function Movements() {
-  const [movements] = useState<Movement[]>(mockMovements);
+  const [movements, setMovements] = useState<Movement[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [filter, setFilter] = useState<FilterType>('todas');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await fetchMovements();
+      setMovements(data);
+    } catch {
+      setError('Não foi possível carregar as movimentações. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const filters: { id: FilterType; label: string }[] = [
     { id: 'todas', label: 'Todas' },
@@ -15,11 +44,12 @@ export default function Movements() {
     { id: 'saida', label: 'Saídas' },
   ];
 
-  const filtered = movements.filter((m) => filter === 'todas' || m.type === filter);
+  const filtered = movements.filter((m) => filter === 'todas' || m.tipo === filter);
 
   const grouped = filtered.reduce<Record<string, Movement[]>>((acc, m) => {
-    if (!acc[m.date]) acc[m.date] = [];
-    acc[m.date].push(m);
+    const key = formatDateGroup(m.data_movimentacao);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(m);
     return acc;
   }, {});
 
@@ -28,11 +58,19 @@ export default function Movements() {
   return (
     <div>
       <header className="sticky top-0 z-20 border-b border-line bg-surface px-5 pt-5 pb-3">
-        <h1 className="text-xl font-bold text-ink">Movimentações</h1>
-        <p className="text-xs text-accent-300 mt-0.5">Entradas e saídas registradas</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-ink">Movimentações</h1>
+            <p className="text-xs text-accent-300 mt-0.5">
+              {loading ? 'Carregando...' : 'Entradas e saídas registradas'}
+            </p>
+          </div>
+          <button onClick={load} className="btn-ghost px-3" aria-label="Atualizar movimentações">
+            <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
+          </button>
+        </div>
       </header>
 
-      {/* Filter tabs */}
       <div className="border-b border-line bg-surface px-5">
         <div className="flex gap-1">
           {filters.map((f) => (
@@ -53,9 +91,16 @@ export default function Movements() {
         </div>
       </div>
 
-      {/* Movement timeline */}
       <div className="px-5 py-4">
-        {filtered.length === 0 ? (
+        {error && (
+          <div className="mb-4 rounded-lg bg-danger/10 p-3 text-sm text-danger">{error}</div>
+        )}
+
+        {loading ? (
+          <div className="flex justify-center py-16">
+            <RefreshCw size={24} className="animate-spin text-primary" />
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary-50">
               <ArrowLeftRight size={36} className="text-primary" strokeWidth={1.5} />
@@ -72,7 +117,7 @@ export default function Movements() {
                 <h2 className="section-title mb-3">{date}</h2>
                 <ul className="space-y-2.5">
                   {grouped[date].map((m) => {
-                    const isEntrada = m.type === 'entrada';
+                    const isEntrada = m.tipo === 'entrada';
                     return (
                       <li key={m.id} className="card flex items-center gap-3 p-3.5">
                         <div
@@ -88,9 +133,11 @@ export default function Movements() {
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <h3 className="truncate text-sm font-semibold text-ink">{m.productName}</h3>
+                          <h3 className="truncate text-sm font-semibold text-ink">
+                            {m.produto?.titulo ?? 'Produto removido'}
+                          </h3>
                           <p className="text-xs text-accent-300 mt-0.5">
-                            {isEntrada ? 'Entrada' : 'Saída'} • {m.time}
+                            {isEntrada ? 'Entrada' : 'Saída'} • {formatTime(m.data_movimentacao)}
                           </p>
                         </div>
 
@@ -98,7 +145,7 @@ export default function Movements() {
                           className={`text-sm font-bold ${isEntrada ? 'text-success' : 'text-danger'}`}
                         >
                           {isEntrada ? '+' : '−'}
-                          {m.amount} un.
+                          {m.quantidade} un.
                         </span>
                       </li>
                     );

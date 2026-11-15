@@ -1,26 +1,48 @@
-export type Category =
-  | 'Perfume'
-  | 'Maquiagem'
-  | 'Cabelo'
-  | 'Cosmético';
+export type ScreenId = 'produtos' | 'alertas' | 'movimentacoes' | 'config';
+
+export type MovementType = 'entrada' | 'saida';
+
+export interface Category {
+  id: string;
+  usuario_id: string;
+  nome: string;
+  data_criacao: string;
+}
 
 export interface Product {
   id: string;
-  name: string;
-  category: Category;
-  price: number;
-  quantity: number;
-  minStock: number;
-  lastMovementDays: number;
+  usuario_id: string;
+  titulo: string;
+  categoria_id: string | null;
+  preco: number;
+  estoque: number;
+  estoque_minimo: number;
+  data_criacao: string;
+  data_atualizacao: string;
+  categoria?: Category | null;
 }
 
 export interface Movement {
   id: string;
-  productName: string;
-  type: 'entrada' | 'saida';
-  amount: number;
-  date: string;
-  time: string;
+  usuario_id: string;
+  produto_id: string;
+  tipo: MovementType;
+  quantidade: number;
+  data_movimentacao: string;
+  produto?: Pick<Product, 'id' | 'titulo'> | null;
 }
 
-export type ScreenId = 'produtos' | 'alertas' | 'movimentacoes' | 'config';
+export interface ProductInput {
+  titulo: string;
+  categoria_id: string | null;
+  preco: number;
+  estoque: number;
+  estoque_minimo: number;
+}
+
+export interface ProductWithAlert extends Product {
+  is_low_stock: boolean;
+  is_stale: boolean;
+  last_movement_date: string | null;
+  days_since_movement: number | null;
+}
