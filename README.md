@@ -126,3 +126,141 @@ Os itens abaixo não serão desenvolvidos no MVP. Poderão ser avaliados em vers
 - **Regra de estoque baixo:** o alerta é gerado quando `quantidade disponível <= quantidade mínima`.
 - **Canal de alerta no MVP:** os alertas serão exibidos na interface do sistema; notificações externas não estão incluídas.
 - **Métrica de sucesso:** a redução de 80% só poderá ser avaliada após definir e registrar a quantidade inicial de ocorrências de indisponibilidade e comparar períodos equivalentes após a implantação.
+
+---
+
+## Como executar o projeto localmente
+
+### Pré-requisitos
+
+- **Node.js** versão 18 ou superior (recomendado 20+). O projeto utiliza Vite 7, que exige Node.js 18+.
+- **npm** como gerenciador de pacotes (o projeto inclui `package-lock.json`).
+- **Git** para clonar o repositório.
+- Um projeto no **Supabase** com as tabelas e políticas configuradas (ver seção [Configurar o banco de dados](#configurar-o-banco-de-dados)).
+
+### Clonar o repositório
+
+```bash
+git clone https://github.com/USUARIO/estoque-belza.git
+cd estoque-belza
+```
+
+> Substitua `USUARIO/estoque-belza` pela URL real do repositório.
+
+### Instalar dependências
+
+```bash
+npm install
+```
+
+### Configurar variáveis de ambiente
+
+O projeto utiliza Supabase como back-end (autenticação e banco de dados). Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua-chave-anon-publica
+```
+
+**Como obter os valores:**
+
+1. Acesse o [painel do Supabase](https://supabase.com/dashboard) e abra seu projeto.
+2. Em **Project Settings → API**, copie:
+   - **Project URL** → insira em `VITE_SUPABASE_URL`
+   - **anon public key** → insira em `VITE_SUPABASE_ANON_KEY`
+3. Crie o arquivo `.env` na raiz do projeto (o mesmo diretório onde está o `package.json`).
+
+**Segurança:**
+
+- O arquivo `.env` já está listado no `.gitignore` e não deve ser enviado ao repositório.
+- Nunca utilize a `service_role` key no front-end. Ela possui acesso total ao banco de dados, ignorando as políticas de RLS.
+- Apenas a chave pública `anon` deve ser usada no código do cliente.
+
+### Configurar o banco de dados
+
+O projeto inclui os arquivos SQL de migration na pasta `supabase/migrations/`. Para configurar o banco de dados:
+
+1. Acesse o [SQL Editor do Supabase](https://supabase.com/dashboard).
+2. Abra e execute os arquivos na seguinte ordem:
+   - `001_create_initial_schema.sql` — cria as tabelas `categorias`, `produtos` e `movimentacoes`, com constraints, índices, políticas RLS e a função `registrar_movimentacao`.
+   - `002_add_last_movement_dates_function.sql` — adiciona a função `get_last_movement_dates` para calcular alertas de produtos sem movimentação.
+   - `003_fix_security_advisor_warnings.sql` — ajusta o search_path da função de trigger.
+
+> Se o projeto foi provisionado pelo Bolt, as migrations já podem ter sido aplicadas automaticamente. Verifique as tabelas no Table Editor do Supabase.
+
+### Executar o projeto
+
+```bash
+npm run dev
+```
+
+O servidor de desenvolvimento será iniciado em:
+
+```
+http://localhost:5173
+```
+
+Abra este endereço no navegador para acessar a aplicação.
+
+### Outros comandos disponíveis
+
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Gera a build de produção na pasta `dist/` |
+| `npm run preview` | Visualiza a build de produção localmente |
+| `npm run lint` | Executa a verificação de código com ESLint |
+| `npm run typecheck` | Verifica os tipos TypeScript sem gerar arquivos |
+
+### Estrutura do projeto
+
+```
+src/
+├── components/          # Componentes reutilizáveis (BottomNav, ProductForm, MovementForm)
+├── context/             # Contexto de autenticação (AuthContext)
+├── lib/                 # Configuração do cliente Supabase
+├── screens/             # Telas da aplicação (Auth, ProductsList, AlertsList, Movements, Settings)
+├── services/            # Serviços de acesso ao banco (products, categories, movements)
+├── types.ts             # Tipos e interfaces TypeScript
+├── App.tsx              # Componente principal com roteamento e proteção de rotas
+├── main.tsx             # Ponto de entrada da aplicação
+└── index.css            # Estilos globais e classes utilitárias (Tailwind CSS)
+supabase/
+└── migrations/          # Arquivos SQL de migration do banco de dados
+```
+
+### Solução de problemas comuns
+
+**Node.js em versão incompatível:**
+
+O Vite 7 exige Node.js 18 ou superior. Verifique sua versão com `node -v`. Se necessário, atualize via [nvm](https://github.com/nvm-sh/nvm) ou pelo site oficial [nodejs.org](https://nodejs.org).
+
+**Falha na instalação de dependências:**
+
+Se `npm install` falhar, tente:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Variáveis de ambiente ausentes ou incorretas:**
+
+Se a aplicação não carregar dados ou exibir erros de conexão, verifique se o arquivo `.env` existe na raiz do projeto e contém `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com valores válidos. Reinicie o servidor de desenvolvimento após alterar o `.env`.
+
+**Falha de conexão com o Supabase:**
+
+- Confirme que o projeto Supabase está ativo no painel.
+- Verifique se a URL e a chave anon estão corretas em **Project Settings → API**.
+- Confirme que as tabelas foram criadas executando as migrations no SQL Editor.
+- Verifique se as políticas de RLS estão habilitadas (a aplicação requer um usuário autenticado para acessar os dados).
+
+**Porta local já utilizada:**
+
+Se a porta 5173 estiver em uso, o Vite iniciará automaticamente na próxima porta disponível (5174, 5175, etc.). O endereço exato será exibido no terminal ao executar `npm run dev`. Para encerrar processos que possam estar ocupando a porta:
+
+```bash
+# Linux/macOS
+lsof -i :5173
+kill -9 <PID>
+```
