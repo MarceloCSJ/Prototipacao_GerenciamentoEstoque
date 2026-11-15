@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { X, Plus, Tag, AlertCircle } from 'lucide-react';
 import type { Product, Category, ProductInput } from '@/types';
 import { fetchCategories, createCategory } from '@/services/categories';
@@ -66,7 +67,7 @@ export default function ProductForm({ product, onClose, onSave }: ProductFormPro
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
 

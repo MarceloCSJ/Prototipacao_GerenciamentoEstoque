@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { X, ArrowDownCircle, ArrowUpCircle, AlertCircle } from 'lucide-react';
 import type { Product, MovementType } from '@/types';
 import { registerMovement } from '@/services/movements';
@@ -19,7 +20,7 @@ export default function MovementForm({ product, onClose, onSaved }: MovementForm
     setError('');
   }, [tipo]);
 
-  async function handleSubmit(e: React.FormEvent) => {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
 
@@ -73,7 +74,6 @@ export default function MovementForm({ product, onClose, onSaved }: MovementForm
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-          {/* Type selector */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-ink">Tipo de movimentação</label>
             <div className="grid grid-cols-2 gap-3">
