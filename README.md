@@ -141,7 +141,7 @@ Os itens abaixo não serão desenvolvidos no MVP. Poderão ser avaliados em vers
 ### Clonar o repositório
 
 ```bash
-git clone https://github.com/USUARIO/estoque-belza.git
+git clone https://github.com/MarceloCSJ/Prototipacao_GerenciamentoEstoque.git
 cd estoque-belza
 ```
 
