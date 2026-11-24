@@ -1,28 +1,28 @@
 # Especificação do MVP — Sistema web de gerenciamento de estoque
 
 ## Tela Login:
-![Login](image.png)
+![Login](imagens/image.png)
 
 ## Tela Produtos:
-![Produtos](image-1.png)
+![Produtos](imagens/image-1.png)
 
 ## Tela Alertas:
-![Alertas](image-2.png)
+![Alertas](imagens/image-2.png)
 
 ## Tela Movimentações
-![Movimentações](image-3.png)
+![Movimentações](imagens/image-3.png)
 
 ## Tela Configurações
-![Configurações](image-4.png)
+![Configurações](imagens/image-4.png)
 
 # Tela Offline:
-![Offline](image-5.png)
+![Offline](imagens/image-5.png)
 
 ## Tela Carregamento:
-![Carregamento](image-6.png)
+![Carregamento](imagens/image-6.png)
 
 ## Tela Erro:
-![Erro](image-7.png)
+![Erro](imagens/image-7.png)
 
 ## ✦ 01 · CONTEXT Contexto
 
