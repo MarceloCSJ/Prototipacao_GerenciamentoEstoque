@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import AppLayout from './layout/AppLayout';
 import AuthScreen from '@/features/auth/screens/AuthScreen';
@@ -41,8 +42,11 @@ export default function App() {
   };
 
   return (
-    <AppLayout active={screen} onNavigate={setScreen}>
-      {renderScreen()}
-    </AppLayout>
+    <>
+      <AppLayout active={screen} onNavigate={setScreen}>
+        {renderScreen()}
+      </AppLayout>
+      <Analytics />
+    </>
   );
 }
