@@ -22,7 +22,7 @@ interface BottomNavProps {
 export default function BottomNav({ active, onNavigate }: BottomNavProps) {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-30 border-t border-line bg-surface dark:border-line-dark dark:bg-surface-dark"
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-line bg-surface"
       aria-label="Navegação inferior"
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between">

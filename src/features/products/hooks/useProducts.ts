@@ -6,8 +6,6 @@ import {
   updateProduct,
   deleteProduct,
 } from '@/services/products';
-import type { AlertConfig } from '@/services/products';
-import { DEFAULT_PREFERENCES } from '@/types';
 
 interface UseProductsResult {
   products: ProductWithAlert[];
@@ -19,28 +17,23 @@ interface UseProductsResult {
   setError: (message: string) => void;
 }
 
-export function useProducts(config: AlertConfig): UseProductsResult {
+export function useProducts(): UseProductsResult {
   const [products, setProducts] = useState<ProductWithAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [currentConfig, setCurrentConfig] = useState<AlertConfig>(config);
-
-  useEffect(() => {
-    setCurrentConfig(config);
-  }, [config]);
 
   const reload = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
-      const data = await fetchProducts(currentConfig);
+      const data = await fetchProducts();
       setProducts(data);
     } catch {
       setError('Não foi possível carregar os produtos. Tente novamente.');
     } finally {
       setLoading(false);
     }
-  }, [currentConfig]);
+  }, []);
 
   useEffect(() => {
     reload();
@@ -69,7 +62,4 @@ export function useProducts(config: AlertConfig): UseProductsResult {
   return { products, loading, error, reload, saveProduct, removeProduct, setError };
 }
 
-export const DEFAULT_ALERT_CONFIG: AlertConfig = {
-  antecedencia: DEFAULT_PREFERENCES.antecedencia_aviso,
-  diasParaConsiderarParado: DEFAULT_PREFERENCES.dias_para_considerar_parado,
-};
+export type { Product };

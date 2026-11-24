@@ -10,8 +10,8 @@ interface AppLayoutProps {
 
 export default function AppLayout({ active, onNavigate, children }: AppLayoutProps) {
   return (
-    <div className="min-h-screen bg-canvas dark:bg-canvas-dark">
-      <div className="relative mx-auto min-h-screen max-w-md bg-canvas pb-20 shadow-sm sm:border-x sm:border-line dark:bg-canvas-dark dark:border-line-dark">
+    <div className="min-h-screen bg-canvas">
+      <div className="relative mx-auto min-h-screen max-w-md bg-canvas pb-20 shadow-sm sm:border-x sm:border-line">
         {children}
       </div>
       <BottomNav active={active} onNavigate={onNavigate} />

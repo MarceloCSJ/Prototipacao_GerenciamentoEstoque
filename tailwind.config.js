@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -31,22 +30,10 @@ export default {
           800: '#12171C',
           900: '#0C1013',
         },
-        surface: {
-          DEFAULT: '#FFFFFF',
-          dark: '#1A1F26',
-        },
-        canvas: {
-          DEFAULT: '#F7F9F8',
-          dark: '#11161B',
-        },
-        ink: {
-          DEFAULT: '#111827',
-          dark: '#E2E8E5',
-        },
-        line: {
-          DEFAULT: '#E2E8E5',
-          dark: '#2A323B',
-        },
+        surface: '#FFFFFF',
+        canvas: '#F7F9F8',
+        ink: '#111827',
+        line: '#E2E8E5',
         success: '#16A34A',
         warning: '#D97706',
         danger: '#DC2626',

@@ -43,46 +43,6 @@ export interface ProductInput {
 export interface ProductWithAlert extends Product {
   is_low_stock: boolean;
   is_stale: boolean;
-  is_warning: boolean;
   last_movement_date: string | null;
   days_since_movement: number | null;
 }
-
-export type Theme = 'claro' | 'escuro';
-
-export interface UserPreferences {
-  id: string;
-  usuario_id: string;
-  tema: Theme;
-  notificacoes_estoque_ativas: boolean;
-  antecedencia_aviso: number;
-  dias_para_considerar_parado: number;
-  data_criacao: string;
-  data_atualizacao: string;
-}
-
-export interface StockMinimumDefault {
-  id: string;
-  usuario_id: string;
-  categoria_id: string | null;
-  quantidade_minima: number;
-  data_criacao: string;
-  data_atualizacao: string;
-  categoria?: Category | null;
-}
-
-export interface NotificationState {
-  id: string;
-  usuario_id: string;
-  produto_id: string;
-  alerta_ativo: boolean;
-  data_criacao: string;
-  data_atualizacao: string;
-}
-
-export const DEFAULT_PREFERENCES: Omit<UserPreferences, 'id' | 'usuario_id' | 'data_criacao' | 'data_atualizacao'> = {
-  tema: 'claro',
-  notificacoes_estoque_ativas: false,
-  antecedencia_aviso: 2,
-  dias_para_considerar_parado: 60,
-};

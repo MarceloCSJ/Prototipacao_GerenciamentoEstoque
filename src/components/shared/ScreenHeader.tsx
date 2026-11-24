@@ -7,6 +7,7 @@ interface ScreenHeaderProps {
   onRefresh?: () => void;
   loading?: boolean;
   actions?: ReactNode;
+  showDivider?: boolean;
   children?: ReactNode;
 }
 
@@ -19,10 +20,10 @@ export default function ScreenHeader({
   children,
 }: ScreenHeaderProps) {
   return (
-    <header className="header-surface sticky top-0 z-20 px-5 pt-5 pb-3">
+    <header className="sticky top-0 z-20 border-b border-line bg-surface px-5 pt-5 pb-3">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-ink dark:text-ink-dark">{title}</h1>
+          <h1 className="text-xl font-bold text-ink">{title}</h1>
           {subtitle && <p className="text-xs text-accent-300 mt-0.5">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-2">

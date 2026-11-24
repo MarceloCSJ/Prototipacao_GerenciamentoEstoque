@@ -1,34 +1,31 @@
 import { supabase } from '@/lib/supabase';
 import type { Product, ProductInput, ProductWithAlert } from '@/types';
-import { computeProductAlerts } from '@/lib/stockStatus';
-
-export interface AlertConfig {
-  antecedencia: number;
-  diasParaConsiderarParado: number;
-}
 
 function toProductWithAlert(
   product: Product,
-  lastMovementDate: string | null,
-  config: AlertConfig
+  lastMovementDate: string | null
 ): ProductWithAlert {
-  const alerts = computeProductAlerts(
-    product.estoque,
-    product.estoque_minimo,
-    lastMovementDate,
-    product.data_criacao,
-    config.antecedencia,
-    config.diasParaConsiderarParado
-  );
+  const now = Date.now();
+  let daysSinceMovement: number | null = null;
+
+  if (lastMovementDate) {
+    const diffMs = now - new Date(lastMovementDate).getTime();
+    daysSinceMovement = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  } else {
+    const diffMs = now - new Date(product.data_criacao).getTime();
+    daysSinceMovement = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
 
   return {
     ...product,
     last_movement_date: lastMovementDate,
-    ...alerts,
+    days_since_movement: daysSinceMovement,
+    is_low_stock: product.estoque <= product.estoque_minimo,
+    is_stale: daysSinceMovement > 60,
   };
 }
 
-export async function fetchProducts(config: AlertConfig): Promise<ProductWithAlert[]> {
+export async function fetchProducts(): Promise<ProductWithAlert[]> {
   const { data, error } = await supabase
     .from('produtos')
     .select('*, categoria:categorias(*)')
@@ -54,7 +51,7 @@ export async function fetchProducts(config: AlertConfig): Promise<ProductWithAle
     }
   }
 
-  return products.map((p) => toProductWithAlert(p, movementMap.get(p.id) ?? null, config));
+  return products.map((p) => toProductWithAlert(p, movementMap.get(p.id) ?? null));
 }
 
 export async function fetchProductById(id: string): Promise<Product | null> {

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { useAuth } from '@/features/auth/context/AuthContext';
-import { usePreferences } from '@/context/PreferencesContext';
 import AppLayout from './layout/AppLayout';
 import AuthScreen from '@/features/auth/screens/AuthScreen';
 import ProductsPage from '@/features/products/pages/ProductsPage';
@@ -12,12 +11,11 @@ import type { ScreenId } from '@/types';
 
 export default function App() {
   const { user, loading } = useAuth();
-  const { preferences } = usePreferences();
   const [screen, setScreen] = useState<ScreenId>('produtos');
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-canvas dark:bg-canvas-dark">
+      <div className="flex min-h-screen items-center justify-center bg-canvas">
         <RefreshCw size={28} className="animate-spin text-primary" />
       </div>
     );
