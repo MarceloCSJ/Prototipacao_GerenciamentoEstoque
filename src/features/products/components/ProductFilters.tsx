@@ -24,7 +24,7 @@ export default function ProductFilters({
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder="Buscar produto por nome..."
-          className="w-full rounded-lg border border-line bg-canvas pl-10 pr-4 py-2.5 text-sm text-ink placeholder:text-accent-300 focus:border-primary"
+          className="form-input pl-10"
           aria-label="Buscar produtos"
         />
       </div>
@@ -38,7 +38,7 @@ export default function ProductFilters({
               className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors min-h-[32px] ${
                 categoryFilter === cat
                   ? 'bg-primary text-white'
-                  : 'bg-canvas text-accent-400 hover:bg-line'
+                  : 'bg-canvas text-accent-400 hover:bg-line dark:bg-canvas-dark dark:text-accent-300 dark:hover:bg-line-dark'
               }`}
               aria-pressed={categoryFilter === cat}
             >

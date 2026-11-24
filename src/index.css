@@ -10,9 +10,15 @@
   body {
     @apply bg-canvas text-ink font-sans;
   }
+  .dark body {
+    @apply bg-canvas-dark text-ink-dark;
+  }
   /* Visible focus ring on all interactive elements for keyboard users */
   *:focus-visible {
     @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-canvas rounded;
+  }
+  .dark *:focus-visible {
+    @apply ring-offset-canvas-dark;
   }
 }
 
@@ -36,12 +42,14 @@
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface px-4
       text-ink font-medium text-sm min-h-[44px]
-      transition-colors hover:bg-canvas active:bg-line;
+      transition-colors hover:bg-canvas active:bg-line
+      dark:border-line-dark dark:bg-surface-dark dark:text-ink-dark dark:hover:bg-canvas-dark dark:active:bg-line-dark;
   }
 
   /* Card surface */
   .card {
-    @apply bg-surface border border-line rounded-xl;
+    @apply bg-surface border border-line rounded-xl
+      dark:bg-surface-dark dark:border-line-dark;
   }
 
   /* Status pill — low stock */
@@ -64,6 +72,53 @@
 
   /* Section heading */
   .section-title {
-    @apply text-xs font-semibold uppercase tracking-wider text-accent-400;
+    @apply text-xs font-semibold uppercase tracking-wider text-accent-400
+      dark:text-accent-300;
+  }
+
+  /* Form input base */
+  .form-input {
+    @apply w-full rounded-lg border border-line bg-canvas px-4 py-2.5 text-sm text-ink
+      placeholder:text-accent-300 focus:border-primary
+      dark:border-line-dark dark:bg-canvas-dark dark:text-ink-dark
+      dark:placeholder:text-accent-300;
+  }
+
+  /* Sticky header surface */
+  .header-surface {
+    @apply border-b border-line bg-surface
+      dark:border-line-dark dark:bg-surface-dark;
+  }
+
+  /* Toggle switch */
+  .toggle-track {
+    @apply relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent
+      transition-colors duration-200 ease-in-out;
+  }
+  .toggle-track-on {
+    @apply bg-primary;
+  }
+  .toggle-track-off {
+    @apply bg-accent-200 dark:bg-accent-600;
+  }
+  .toggle-thumb {
+    @apply pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0
+      transition duration-200 ease-in-out;
+  }
+  .toggle-thumb-on {
+    @apply translate-x-5;
+  }
+  .toggle-thumb-off {
+    @apply translate-x-0;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

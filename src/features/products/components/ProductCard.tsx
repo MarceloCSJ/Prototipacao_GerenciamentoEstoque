@@ -24,7 +24,7 @@ export default function ProductCard({ product, onClick }: ProductCardProps) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="truncate text-sm font-semibold text-ink">{product.titulo}</h3>
+            <h3 className="truncate text-sm font-semibold text-ink dark:text-ink-dark">{product.titulo}</h3>
             <ChevronRight size={18} className="shrink-0 text-accent-300" />
           </div>
           <p className="text-xs text-accent-300 mt-0.5">
@@ -32,7 +32,7 @@ export default function ProductCard({ product, onClick }: ProductCardProps) {
           </p>
 
           <div className="mt-2 flex items-center justify-between gap-2">
-            <span className="text-sm font-semibold text-ink">
+            <span className="text-sm font-semibold text-ink dark:text-ink-dark">
               {formatPrice(Number(product.preco))}
             </span>
             <div className="flex items-center gap-2">

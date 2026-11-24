@@ -41,25 +41,25 @@ export default function AuthScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="relative mx-auto flex min-h-screen max-w-md flex-col bg-canvas shadow-sm sm:border-x sm:border-line">
-        <header className="border-b border-line bg-surface px-5 pt-5 pb-4">
+    <div className="min-h-screen bg-canvas dark:bg-canvas-dark">
+      <div className="relative mx-auto flex min-h-screen max-w-md flex-col bg-canvas shadow-sm sm:border-x sm:border-line dark:bg-canvas-dark dark:border-line-dark">
+        <header className="header-surface px-5 pt-5 pb-4">
           <div className="flex flex-col items-center">
             <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary">
               <Package size={28} className="text-white" strokeWidth={1.8} />
             </div>
-            <h1 className="text-xl font-bold text-ink">Estoque Belza</h1>
+            <h1 className="text-xl font-bold text-ink dark:text-ink-dark">Estoque Belza</h1>
             <p className="mt-0.5 text-xs text-accent-300">Gerencie seu estoque com confiança</p>
           </div>
         </header>
 
         <div className="flex flex-1 flex-col justify-center px-5 py-8">
           <div className="card p-5">
-            <div className="mb-5 flex gap-1 rounded-lg bg-canvas p-1">
+            <div className="mb-5 flex gap-1 rounded-lg bg-canvas p-1 dark:bg-canvas-dark">
               <button
                 onClick={() => { setMode('login'); setError(''); }}
                 className={`flex-1 rounded-md py-2 text-sm font-semibold transition-colors min-h-[40px] ${
-                  mode === 'login' ? 'bg-surface text-ink shadow-sm' : 'text-accent-300'
+                  mode === 'login' ? 'bg-surface text-ink shadow-sm dark:bg-surface-dark dark:text-ink-dark' : 'text-accent-300'
                 }`}
                 aria-pressed={mode === 'login'}
               >
@@ -68,7 +68,7 @@ export default function AuthScreen() {
               <button
                 onClick={() => { setMode('signup'); setError(''); }}
                 className={`flex-1 rounded-md py-2 text-sm font-semibold transition-colors min-h-[40px] ${
-                  mode === 'signup' ? 'bg-surface text-ink shadow-sm' : 'text-accent-300'
+                  mode === 'signup' ? 'bg-surface text-ink shadow-sm dark:bg-surface-dark dark:text-ink-dark' : 'text-accent-300'
                 }`}
                 aria-pressed={mode === 'signup'}
               >
@@ -78,7 +78,7 @@ export default function AuthScreen() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink dark:text-ink-dark">
                   E-mail
                 </label>
                 <div className="relative">
@@ -90,14 +90,14 @@ export default function AuthScreen() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
-                    className="w-full rounded-lg border border-line bg-canvas pl-10 pr-4 py-2.5 text-sm text-ink placeholder:text-accent-300 focus:border-primary"
+                    className="form-input pl-10"
                     autoComplete="email"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink">
+                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink dark:text-ink-dark">
                   Senha
                 </label>
                 <div className="relative">
@@ -110,7 +110,7 @@ export default function AuthScreen() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Mínimo 6 caracteres"
-                    className="w-full rounded-lg border border-line bg-canvas pl-10 pr-11 py-2.5 text-sm text-ink placeholder:text-accent-300 focus:border-primary"
+                    className="form-input pl-10 pr-11"
                     autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                   />
                   <button

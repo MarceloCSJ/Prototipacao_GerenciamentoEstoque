@@ -20,7 +20,7 @@ export default function EmptyState({
       <div className={`mb-4 flex h-20 w-20 items-center justify-center rounded-full ${iconBgClassName}`}>
         <Icon size={36} className={iconClassName} strokeWidth={1.5} />
       </div>
-      <h3 className="text-base font-semibold text-ink">{title}</h3>
+      <h3 className="text-base font-semibold text-ink dark:text-ink-dark">{title}</h3>
       <p className="mt-1 text-sm text-accent-300">{message}</p>
     </div>
   );
