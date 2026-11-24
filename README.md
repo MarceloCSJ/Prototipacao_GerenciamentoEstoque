@@ -1,5 +1,29 @@
 # Especificação do MVP — Sistema web de gerenciamento de estoque
 
+## Tela Login:
+![Login](image.png)
+
+## Tela Produtos:
+![Produtos](image-1.png)
+
+## Tela Alertas:
+![Alertas](image-2.png)
+
+## Tela Movimentações
+![Movimentações](image-3.png)
+
+## Tela Configurações
+![Configurações](image-4.png)
+
+# Tela Offline:
+![Offline](image-5.png)
+
+## Tela Carregamento:
+![Carregamento](image-6.png)
+
+## Tela Erro:
+![Erro](image-7.png)
+
 ## ✦ 01 · CONTEXT Contexto
 
 Pequenos revendedores brasileiros de cosméticos, produtos tecnológicos e roupas frequentemente controlam o estoque com planilhas, cadernos e mensagens, o que dificulta saber a quantidade realmente disponível, registrar movimentações no momento em que acontecem, planejar reposições e perceber produtos sem saída. O MVP será um sistema web responsivo, em português, para permitir o cadastro e a consulta de produtos, o registro de entradas e saídas e a visualização de alertas de estoque baixo e de produtos sem movimentação há mais de 60 dias. A solução deve ser simples para pessoas com familiaridade intermediária com tecnologia e funcionar em celulares e computadores. O escopo inicial prioriza a confiabilidade do saldo e alertas apresentados dentro do próprio sistema; integrações externas, automações comerciais e funcionalidades avançadas ficam para versões futuras.
