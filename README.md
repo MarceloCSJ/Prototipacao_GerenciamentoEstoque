@@ -288,3 +288,6 @@ Se a porta 5173 estiver em uso, o Vite iniciará automaticamente na próxima por
 lsof -i :5173
 kill -9 <PID>
 ```
+
+
+[Plano de Testes Manuais baseado nos Requisitos Funcionais:](plano_teste_manual.md)
